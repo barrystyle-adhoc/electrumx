@@ -37,6 +37,8 @@ from decimal import Decimal
 from hashlib import sha256
 from functools import partial
 
+#import pyrk_hash
+
 import electrumx.lib.util as util
 from electrumx.lib.hash import Base58, hash160, double_sha256, hash_to_hex_str
 from electrumx.lib.hash import HASHX_LEN, hex_str_to_hash
@@ -1252,10 +1254,8 @@ class Pyrk(Coin):
     TX_COUNT = 215741
     TX_PER_BLOCK = 4
     PEER_DEFAULT_PORTS = {'t': '8118', 's': '8119'}
-    RPC_PORT = 9998
+    RPC_PORT = 8117
     PEERS = [
-        'peer1.pyrk.net',
-        'peer2.pyrk.net',
     ]
     SESSIONCLS = DashElectrumX
     DAEMON = daemon.DashDaemon
@@ -1263,9 +1263,12 @@ class Pyrk(Coin):
 
     @classmethod
     def header_hash(cls, header):
-        '''Given a header return the hash.'''
-        import x11_hash
-        return x11_hash.getPoWHash(header)
+        '''Given a header return hash'''
+        return double_sha256(header)
+
+    #def pow_hash(cls, header):
+    #    '''Given a header return the hash.'''
+    #    return pyrk_hash.getPoWHash(header)
 
 
 class DashTestnet(Dash):
